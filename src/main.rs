@@ -8,9 +8,12 @@ fn main() {
     create_pdf(files, path);
 }
 
+// Получение аргументов командной строки
+// Путь сохранения файла является опциональным
+// Если он не указан, то путь сохранения устанавливается равным
+// Текущей дирректории
 fn get_arguments() -> (Vec<String>, String) {
     let args: Vec<String> = env::args().collect();
-
     let mut path = args[args.len()-1].clone()+"/";
     let mut length = args.len()-1;
 
@@ -20,7 +23,6 @@ fn get_arguments() -> (Vec<String>, String) {
             length += 1;
         }
     }
-
     let mut files: Vec<String> = Vec::new();
     for i in 1..length {
         files.push(args[i].to_string());
@@ -28,6 +30,8 @@ fn get_arguments() -> (Vec<String>, String) {
     (files, path)
 }
 
+// Создание файла пдф,
+// В который напрямую встраиваются указанные фото
 fn create_pdf(jpeg_names: Vec<String>, path: String) {
     let out_file = File::create(path+"result.pdf")
         .expect("Не могу инициализировать PDF");
